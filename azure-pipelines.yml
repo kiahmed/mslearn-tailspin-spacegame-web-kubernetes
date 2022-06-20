@@ -60,7 +60,6 @@ stages:
             inputs:
               action: createSecret
               secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(RegistryName)
               kubernetesServiceConnection: 'openshift-sandbox-devsecops-1655763019457'
               namespace: 'devsecops'
           - task: KubernetesManifest@0
