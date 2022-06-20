@@ -48,11 +48,9 @@ stages:
     displayName: 'Deploy job'
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: 'openshift-sandbox'
     variables:
     - group: Release
     strategy:
-      runOnce:
         deploy:
           steps:
           - download: current
