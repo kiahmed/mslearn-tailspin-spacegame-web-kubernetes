@@ -65,13 +65,13 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: 'Container Registry Connection'
-              kubernetesServiceConnection: 'openshift-sandbox-devsecops-1655743871920'
+              kubernetesServiceConnection: 'openshift-sandbox-devsecops-1655763019457'
               namespace: 'devsecops'
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              kubernetesServiceConnection: 'openshift-sandbox-devsecops-1655743871920'
+              kubernetesServiceConnection: 'openshift-sandbox-devsecops-1655763019457'
               namespace: 'default'
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
