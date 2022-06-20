@@ -7,7 +7,7 @@ variables:
   tag: '$(Build.BuildId)'
   leaderboardRepository: 'leaderboard'
   imagePullSecret: 'secret'
-  dockerRegEndpoint: 'tailspinspacegame4750.azurecr.io'
+  crConnName: 'acr-tailspinspacegame'
 stages:
 - stage: 'Build'
   displayName: 'Build and push'
@@ -24,7 +24,7 @@ stages:
         buildContext: $(Build.Repository.LocalPath)
         repository: $(webRepository)
         dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
-        containerRegistry: $(dockerRegEndpoint)
+        containerRegistry: $(crConnName)
         tags: |
           $(tag)
     - task: Docker@2
@@ -34,7 +34,7 @@ stages:
         buildContext: $(Build.Repository.LocalPath)
         repository: $(leaderboardRepository)
         dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.LeaderboardContainer/Dockerfile'
-        containerRegistry: $(dockerRegEndpoint)
+        containerRegistry: $(crConnName)
         tags: |
           $(tag)
     - publish: '$(Build.SourcesDirectory)/manifests'
@@ -62,6 +62,7 @@ stages:
             inputs:
               action: createSecret
               secretName: $(imagePullSecret)
+              dockerRegistryEndpoint: ${crConnName}
               kubernetesServiceConnection: 'openshift-sandbox-devsecops-1655763019457'
               namespace: 'devsecops'
           - task: KubernetesManifest@0
