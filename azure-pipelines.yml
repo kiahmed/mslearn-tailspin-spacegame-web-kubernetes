@@ -7,7 +7,7 @@ variables:
   tag: '$(Build.BuildId)'
   leaderboardRepository: 'leaderboard'
   imagePullSecret: 'secret'
-
+  dockerRegEndpoint: '$(RegistryName)'
 stages:
 - stage: 'Build'
   displayName: 'Build and push'
@@ -24,6 +24,7 @@ stages:
         buildContext: $(Build.Repository.LocalPath)
         repository: $(webRepository)
         dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
+        containerRegistry: $(dockerRegEndpoint)
         tags: |
           $(tag)
     - task: Docker@2
@@ -33,6 +34,7 @@ stages:
         buildContext: $(Build.Repository.LocalPath)
         repository: $(leaderboardRepository)
         dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.LeaderboardContainer/Dockerfile'
+        containerRegistry: $(dockerRegEndpoint)
         tags: |
           $(tag)
     - publish: '$(Build.SourcesDirectory)/manifests'
