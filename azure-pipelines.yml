@@ -9,6 +9,7 @@ variables:
   imagePullSecret: 'secret'
   crConnName: 'acr-tailspinspacegame'
   NameSpace: 'devsecops'
+  k8sSvcConnName: 'openshift-sandbox-devsecops-1655763019457'
 stages:
 - stage: 'Build'
   displayName: 'Build and push'
