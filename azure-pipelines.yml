@@ -8,6 +8,7 @@ variables:
   leaderboardRepository: 'leaderboard'
   imagePullSecret: 'secret'
   crConnName: 'acr-tailspinspacegame'
+  NameSpace: 'devsecops'
 stages:
 - stage: 'Build'
   displayName: 'Build and push'
