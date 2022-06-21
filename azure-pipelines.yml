@@ -43,14 +43,14 @@ stages:
 - stage: 'Deploy'
   displayName: 'Deploy the containers'
   dependsOn: Build
+  variables:
+    - group: Release
   jobs:
   - deployment: Deploy
     displayName: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
     environment: 'openshift-sandbox.$(NameSpace)'
-    variables:
-    - group: Release
     strategy:
       runOnce:
         deploy:
@@ -64,7 +64,7 @@ stages:
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(crConnName)
               kubernetesServiceConnection: '$(k8sSvcConnName)'
-              namespace: 'devsecops'
+              namespace: $(NameSpace)
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
