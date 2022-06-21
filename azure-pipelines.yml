@@ -43,13 +43,13 @@ stages:
 - stage: 'Deploy'
   displayName: 'Deploy the containers'
   dependsOn: Build
-  variables:
-    - group: Release
   jobs:
   - deployment: Deploy
     displayName: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
+    variables:
+    - group: Release
     environment: 'openshift-sandbox.$(NameSpace)'
     strategy:
       runOnce:
