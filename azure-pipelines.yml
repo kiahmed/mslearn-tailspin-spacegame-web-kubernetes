@@ -48,7 +48,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: 'ubuntu-20.04'
-    environment: 'openshift-sandbox.devsecops'
+    environment: 'openshift-sandbox.$(NameSpace)'
     variables:
     - group: Release
     strategy:
@@ -63,14 +63,14 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(crConnName)
-              kubernetesServiceConnection: 'openshift-sandbox-devsecops-1655763019457'
+              kubernetesServiceConnection: '$(k8sSvcConnName)'
               namespace: 'devsecops'
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              kubernetesServiceConnection: 'openshift-sandbox-devsecops-1655763019457'
-              namespace: 'default'
+              kubernetesServiceConnection: '$(k8sSvcConnName)'
+              namespace: $(NameSpace)
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
                 $(Pipeline.Workspace)/manifests/service.yml
